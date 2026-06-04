@@ -32,6 +32,7 @@ services:
       - "./extensions:/app/extensions"
     environment:
       APP_ENV: "production"
+      APP_URL: "https://panel.serverhop.com"
       CACHE_STORE: "redis"
       REDIS_HOST: "cache"
       DB_CONNECTION: "mariadb"
