@@ -6,8 +6,6 @@ use App\Http\Middleware\MustVerfiyEmail;
 use App\Livewire\Auth;
 use App\Livewire\Cart;
 use App\Livewire\Client;
-use App\Livewire\Dashboard;
-use App\Livewire\Home;
 use App\Livewire\Invoices;
 use App\Livewire\Products;
 use App\Livewire\Services;
