@@ -22,12 +22,6 @@
 
     <ul class="pm-utility-list">
         <li>
-            <a class="pm-utility-link" href="{{ route('account') }}" wire:navigate>
-                <x-ri-settings-3-line class="pm-utility-icon" />
-                <span>{{ __('navigation.account') }}</span>
-            </a>
-        </li>
-        <li>
             <livewire:auth.logout />
         </li>
     </ul>

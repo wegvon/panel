@@ -96,6 +96,15 @@
         transition: color 160ms ease, transform 160ms ease;
     }
 
+    button.pm-nav-link {
+        background: none;
+        border: none;
+        padding: 0;
+        cursor: pointer;
+        font-family: inherit;
+        text-align: left;
+    }
+
     .pm-nav-link:hover,
     .pm-utility-link:hover,
     .pm-nav-link.active {
@@ -124,6 +133,31 @@
         color: #11111a;
         font-size: 11px;
         box-shadow: 0 8px 16px rgba(17, 17, 26, 0.08);
+    }
+
+    .pm-nav-chevron {
+        width: 18px;
+        height: 18px;
+        margin-left: auto;
+        flex: 0 0 auto;
+        transition: transform 200ms ease;
+    }
+
+    .pm-nav-chevron.rotate-90 {
+        transform: rotate(90deg);
+    }
+
+    .pm-nav-children {
+        margin: 0;
+        padding: 0 0 0 18px;
+        list-style: none;
+        display: grid;
+        gap: 14px;
+    }
+
+    .pm-nav-children .pm-nav-link {
+        font-size: 14px;
+        font-weight: 650;
     }
 
     .pm-upgrade-card {
@@ -594,6 +628,8 @@
         .pm-brand-name,
         .pm-nav-text,
         .pm-nav-extra,
+        .pm-nav-chevron,
+        .pm-nav-children,
         .pm-upgrade-card,
         .pm-utility-list {
             display: none;
