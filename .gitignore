@@ -21,4 +21,4 @@ themes/*
 extensions/Others/Pages
 extensions/Servers/LicenseManager
 extensions/Servers/Proxmox
-!themes/default
+!themes/default.playwright-mcp/
