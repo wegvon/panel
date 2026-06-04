@@ -1,44 +1,42 @@
-<div class="container mt-14 space-y-4">
-    <x-navigation.breadcrumb />
+<div class="pm-page">
+    <header class="pm-top-row pm-reveal">
+        <div>
+            <p class="pm-eyebrow">{{ __('navigation.invoices') }}</p>
+            <h1 class="pm-headline">{{ __('invoices.invoices') }}</h1>
+            <p class="pm-subhead">{{ __('dashboard.unpaid_invoices') }}: {{ $invoices->where('status', 'pending')->count() }}</p>
+        </div>
+    </header>
 
-    @forelse ($invoices as $invoice)
-    <a href="{{ route('invoices.show', $invoice) }}" wire:navigate>
-        <div class="bg-background-secondary hover:bg-background-secondary/80 border border-neutral p-4 rounded-lg mb-4">
-        <div class="flex items-center justify-between mb-2">
-            <div class="flex items-center gap-3">
-            <div class="bg-secondary/10 p-2 rounded-lg">
-                <x-ri-bill-line class="size-5 text-secondary" />
-            </div>
-            <span class="font-medium">{{ !$invoice->number && config('settings.invoice_proforma', false) ? __('invoices.proforma_invoice', ['id' => $invoice->id]) : __('invoices.invoice', ['id' => $invoice->number]) }}</span>
-            <span class="text-base/50 font-semibold">
-                <x-ri-circle-fill class="size-1 text-base/20" />
-            </span>
-            <span class="text-base text-sm">{{ $invoice->formattedTotal }}</span>
-            </div>
-            <div class="size-5 rounded-md p-0.5
-                @if ($invoice->status == 'paid') text-success bg-success/20
-                @elseif($invoice->status == 'cancelled') text-info bg-info/20
-                @else text-warning bg-warning/20
-                @endif">
-                @if ($invoice->status == 'paid')
-                    <x-ri-checkbox-circle-fill />
-                @elseif($invoice->status == 'cancelled')
-                    <x-ri-forbid-fill />
-                @elseif($invoice->status == 'pending')
-                    <x-ri-error-warning-fill />
-                @endif
-            </div>
-        </div>
-        @foreach ($invoice->items as $item)
-            <p class="text-base text-sm">Item(s): {{ $item->description }} ({{ __('invoices.invoice_date')}}: {{ $invoice->created_at->format('d M Y') }})</p>
-        @endforeach
-        </div>
-    </a>
-    @empty
-    <div class="bg-background-secondary border border-neutral p-4 rounded-lg">
-        <p class="text-base text-sm">{{ __('invoices.no_invoices') }}</p>
+    <div class="pm-divider"></div>
+
+    <div class="pm-list pm-reveal" style="animation-delay: 80ms">
+        @forelse ($invoices as $invoice)
+            <a href="{{ route('invoices.show', $invoice) }}" class="pm-row" wire:navigate>
+                <div class="pm-row-icon sand">
+                    <x-ri-bill-line class="size-5" />
+                </div>
+                <div>
+                    <p class="pm-row-title">
+                        {{ !$invoice->number && config('settings.invoice_proforma', false) ? __('invoices.proforma_invoice', ['id' => $invoice->id]) : __('invoices.invoice', ['id' => $invoice->number]) }}
+                    </p>
+                    <div class="pm-row-meta">
+                        <span><x-ri-wallet-3-line class="size-3" />{{ $invoice->formattedTotal }}</span>
+                        <span><x-ri-calendar-line class="size-3" />{{ $invoice->created_at->format('d M Y') }}</span>
+                        @if($invoice->items->first())
+                            <span><x-ri-file-list-3-line class="size-3" />{{ $invoice->items->first()->description }}</span>
+                        @endif
+                    </div>
+                </div>
+                <span class="pm-status {{ $invoice->status === 'paid' ? '' : ($invoice->status === 'pending' ? 'warn' : 'bad') }}">
+                    {{ str($invoice->status)->headline() }}
+                </span>
+            </a>
+        @empty
+            <div class="pm-empty">{{ __('invoices.no_invoices') }}</div>
+        @endforelse
     </div>
-    @endforelse
 
-    {{ $invoices->links() }}
+    <div class="mt-6">
+        {{ $invoices->links() }}
+    </div>
 </div>

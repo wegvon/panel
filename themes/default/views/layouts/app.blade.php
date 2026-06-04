@@ -11,6 +11,9 @@
         - {{ $title }}
         @endisset
     </title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     @livewireStyles
     @vite(['themes/' . config('settings.theme') . '/js/app.js', 'themes/' . config('settings.theme') . '/css/app.css'], config('settings.theme'))
     @include('layouts.colors')
@@ -36,7 +39,7 @@
     {!! hook('head') !!}
 </head>
 
-<body class="w-full bg-background text-base min-h-screen flex flex-col antialiased"
+<body class="w-full bg-background text-base min-h-screen flex flex-col antialiased {{ (isset($sidebar) && $sidebar) ? 'paymenter-body' : '' }}"
     x-cloak
     x-data="{
         theme: $persist('system').as('theme_mode'),
@@ -53,23 +56,32 @@
     :class="{'dark': isDark}"
 >
     {!! hook('body') !!}
-    <x-navigation />
-    <div class="w-full flex flex-grow">
-        @if (isset($sidebar) && $sidebar)
-        <x-navigation.sidebar title="$title" />
-        @endif
-        <div class="{{ (isset($sidebar) && $sidebar) ? 'md:ml-64 rtl:ml-0 rtl:md:mr-64' : '' }} flex flex-col flex-grow overflow-auto">
-            <main class="mt-16 grow">
+    @if (isset($sidebar) && $sidebar)
+        <div class="paymenter-shell">
+            <x-navigation.sidebar title="$title" />
+            <main class="paymenter-main">
                 {{ $slot }}
             </main>
-            <x-notification />
-            <x-confirmation />
-            <div class="flex">
-                <x-navigation.footer />
-            </div>
         </div>
+        <x-notification />
+        <x-confirmation />
         <x-impersonating />
-    </div>
+    @else
+        <x-navigation />
+        <div class="w-full flex flex-grow">
+            <div class="flex flex-col flex-grow overflow-auto">
+                <main class="mt-16 grow">
+                    {{ $slot }}
+                </main>
+                <x-notification />
+                <x-confirmation />
+                <div class="flex">
+                    <x-navigation.footer />
+                </div>
+            </div>
+            <x-impersonating />
+        </div>
+    @endif
     @livewireScriptConfig
     {!! hook('footer') !!}
 </body>

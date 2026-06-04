@@ -1,112 +1,77 @@
-<div class="lg:px-4 lg:py-6 flex flex-col gap-2">
-    <div class="flex flex-col gap-2 md:hidden">
-        @foreach (\App\Classes\Navigation::getLinks() as $nav)
-        @if (!empty($nav['children']))
-        <div x-data="{ activeAccordion: {{ $nav['active'] ? 'true' : 'false' }} }"
-            class="relative w-full mx-auto overflow-hidden text-sm font-normal divide-y divide-gray-200">
-            <div class="cursor-pointer">
-                <button @click="activeAccordion = !activeAccordion"
-                    class="flex items-center justify-between w-full p-3 text-sm font-semibold whitespace-nowrap rounded-lg hover:bg-primary/5">
-                    <div class="flex flex-row gap-2">
+@php
+    $dashboardLinks = \App\Classes\Navigation::getDashboardLinks();
+    $topLinks = \App\Classes\Navigation::getLinks();
+@endphp
+
+<nav aria-label="{{ __('navigation.dashboard') }}">
+    <ul class="pm-nav-list">
+        @foreach ($dashboardLinks as $nav)
+            @if (!empty($nav['children']))
+                <li>
+                    <div class="pm-nav-link {{ $nav['active'] ? 'active' : '' }}">
                         @isset($nav['icon'])
-                            <x-dynamic-component :component="$nav['icon']"
-                            class="size-5 {{ $nav['active'] ? 'text-primary' : 'fill-base/50' }}" />
+                            <x-dynamic-component :component="$nav['icon']" class="pm-nav-icon" />
                         @endisset
-                        <span>{{ $nav['name'] }}</span>
+                        <span class="pm-nav-text">{{ $nav['name'] }}</span>
                     </div>
-                    <x-ri-arrow-down-s-line x-bind:class="{ 'rotate-180': activeAccordion }"
-                        class="size-4 text-base ease-out duration-300" />
-                </button>
-                <div x-show="activeAccordion" x-collapse x-cloak>
-                    <div class="p-4 pt-0 opacity-70">
-                        @foreach ($nav['children'] as $child)
-                        <div class="flex items-center space-x-2">
-                            <x-navigation.link :href="$child['url']"
-                                :spa="$child['spa'] ?? true"
-                                class="{{ $child['active'] ? 'text-primary font-bold' : '' }}">
-                                {{ $child['name'] }}
-                            </x-navigation.link>
-                        </div>
-                        @endforeach
-                    </div>
-                </div>
-            </div>
-        </div>
-        @else
-        <div class="flex items-center rounded-lg {{ $nav['active'] ? 'bg-primary/5' : 'hover:bg-primary/5' }}">
-            <x-navigation.link :href="$nav['url']"
-                :spa="$nav['spa'] ?? true" class="w-full">
-                @isset($nav['icon'])
-                    <x-dynamic-component :component="$nav['icon']"
-                        class="size-5 {{ $nav['active'] ? 'text-primary' : 'fill-base/50' }}" />
-                @endisset
-                {{ $nav['name'] }}
-            </x-navigation.link>
-        </div>
-        @endif
-        @isset($nav['separator'])
-        <div class="h-px w-full bg-neutral"></div>
-        @endisset
-        @endforeach
-    </div>
-
-    <div class="flex flex-col gap-2">
-        @foreach (\App\Classes\Navigation::getDashboardLinks() as $nav)
-        @if (!empty($nav['children']))
-        <div x-data="{ activeAccordion: {{ $nav['active'] ? 'true' : 'false' }} }"
-            class="relative w-full mx-auto overflow-hidden text-sm font-normal divide-y divide-gray-200">
-            <div class="cursor-pointer">
-                <button @click="activeAccordion = !activeAccordion"
-                    class="flex items-center justify-between w-full p-3 text-sm font-semibold whitespace-nowrap rounded-lg hover:bg-primary/5">
-                    <div class="flex flex-row gap-2">
+                </li>
+                @foreach ($nav['children'] as $child)
+                    @if ($child['condition'] ?? true)
+                        <li>
+                            <a href="{{ $child['url'] }}"
+                                class="pm-nav-link {{ $child['active'] ? 'active' : '' }}"
+                                @if($child['spa'] ?? true) wire:navigate @endif>
+                                <x-ri-arrow-right-s-line class="pm-nav-icon" />
+                                <span class="pm-nav-text">{{ $child['name'] }}</span>
+                            </a>
+                        </li>
+                    @endif
+                @endforeach
+            @else
+                <li>
+                    <a href="{{ $nav['url'] }}"
+                        class="pm-nav-link {{ $nav['active'] ? 'active' : '' }}"
+                        @if($nav['spa'] ?? true) wire:navigate @endif>
                         @isset($nav['icon'])
-                            <x-dynamic-component :component="$nav['icon']"
-                                class="size-5 {{ $nav['active'] ? 'text-primary' : 'fill-base/50' }}" />
+                            <x-dynamic-component :component="$nav['icon']" class="pm-nav-icon" />
                         @endisset
-                        <span>{{ $nav['name'] }}</span>
-                    </div>
-                    <x-ri-arrow-down-s-line x-bind:class="{ 'rotate-180': activeAccordion }"
-                        class="size-4 text-base ease-out duration-300" />
-                </button>
-                <div x-show="activeAccordion" x-collapse x-cloak>
-                    <div class="p-4 pt-0 opacity-70">
-                        @foreach ($nav['children'] as $child)
-                            @if ($child['condition'] ?? true)
-                            <div class="flex items-center space-x-2">
-                                <x-navigation.link :href="$child['url']"
-                                    :spa="$child['spa'] ?? true"
-                                    class="{{ $child['active'] ? 'text-primary font-bold' : '' }}">
-                                    {{ $child['name'] }}
-                                </x-navigation.link>
-                            </div>
-                            @endif
-                        @endforeach
-                    </div>
-                </div>
-            </div>
-        </div>
-        @else
-        <div class="flex items-center rounded-lg {{ $nav['active'] ? 'bg-primary/5' : 'hover:bg-primary/5' }}">
-            <x-navigation.link :href="$nav['url']"
-                :spa="$nav['spa'] ?? true"
-                class="w-full">
-                @isset($nav['icon'])
-                    <x-dynamic-component :component="$nav['icon']"
-                        class="size-5 {{ $nav['active'] ? 'text-primary' : 'fill-base/50' }}" />
-                @endisset
-                {{ $nav['name'] }}
-            </x-navigation.link>
-        </div>
-        @endif
-        @isset($nav['separator'])
-        <div class="h-px w-full bg-neutral"></div>
-        @endisset
+                        <span class="pm-nav-text">{{ $nav['name'] }}</span>
+                        @if(str_contains($nav['url'], '/services') && auth()->check())
+                            <span class="pm-nav-extra">{{ auth()->user()->services()->count() }}</span>
+                        @elseif(str_contains($nav['url'], '/invoices') && auth()->check())
+                            <span class="pm-nav-extra">{{ auth()->user()->invoices()->where('status', 'pending')->count() }}</span>
+                        @elseif(str_contains($nav['url'], '/tickets') && auth()->check())
+                            <span class="pm-nav-extra">{{ auth()->user()->tickets()->where('status', '!=', 'closed')->count() }}</span>
+                        @endif
+                    </a>
+                </li>
+            @endif
         @endforeach
-        <div class="flex flex-row items-center mt-4 justify-between md:hidden">
-            <livewire:components.locale-switch />
 
-            <x-theme-toggle />
-
-        </div>
-    </div>
-</div>
+        @foreach ($topLinks as $nav)
+            @if (!empty($nav['children']))
+                @foreach ($nav['children'] as $child)
+                    <li>
+                        <a href="{{ $child['url'] }}"
+                            class="pm-nav-link {{ $child['active'] ? 'active' : '' }}"
+                            @if($child['spa'] ?? true) wire:navigate @endif>
+                            <x-ri-shopping-bag-4-line class="pm-nav-icon" />
+                            <span class="pm-nav-text">{{ $child['name'] }}</span>
+                        </a>
+                    </li>
+                @endforeach
+            @else
+                <li>
+                    <a href="{{ $nav['url'] }}"
+                        class="pm-nav-link {{ $nav['active'] ? 'active' : '' }}"
+                        @if($nav['spa'] ?? true) wire:navigate @endif>
+                        @isset($nav['icon'])
+                            <x-dynamic-component :component="$nav['icon']" class="pm-nav-icon" />
+                        @endisset
+                        <span class="pm-nav-text">{{ $nav['name'] }}</span>
+                    </a>
+                </li>
+            @endif
+        @endforeach
+    </ul>
+</nav>

@@ -1,50 +1,52 @@
-<div class="container mt-14 space-y-4">
-    <x-navigation.breadcrumb />
-    @forelse ($services as $service)
-    <a href="{{ route('services.show', $service) }}" wire:navigate>
-        <div class="bg-background-secondary hover:bg-background-secondary/80 border border-neutral p-4 rounded-lg mb-4">
-        <div class="flex items-center justify-between mb-2">
-            <div class="flex items-center gap-3">
-            <div class="bg-secondary/10 p-2 rounded-lg">
-                <x-ri-instance-line class="size-5 text-secondary" />
-            </div>
-            <span class="font-medium">{{ $service->label }}</span>
-            </div>
-            <div class="size-5 rounded-md p-0.5
-                @if ($service->status == 'active') text-success bg-success/20 
-                @elseif($service->status == 'suspended' || $service->status == 'cancelled') text-inactive bg-inactive/20
-                @else text-warning bg-warning/20 
-                @endif">
-                @if ($service->status == 'active')
-                    <x-ri-checkbox-circle-fill />
-                @elseif($service->status == 'suspended' || $service->status == 'cancelled')
-                    <x-ri-forbid-fill />
-                @elseif($service->status == 'pending')
-                    <x-ri-error-warning-fill />
-                @endif
-            </div>
+<div class="pm-page">
+    <header class="pm-top-row pm-reveal">
+        <div>
+            <p class="pm-eyebrow">{{ __('navigation.services') }}</p>
+            <h1 class="pm-headline">{{ __('services.services') }}</h1>
+            <p class="pm-subhead">{{ __('dashboard.dashboard_description') }}</p>
         </div>
-        <div class="text-base text-sm flex gap-1">
-            {{
-                in_array($service->plan->type, ['recurring']) ?  __('services.every_period', [
-                'period' => $service->plan->billing_period > 1 ? $service->plan->billing_period : '',
-                'unit' => trans_choice(__('services.billing_cycles.' . $service->plan->billing_unit),
-                $service->plan->billing_period)
-                ]) : '' }}
-                @if($service->expires_at && $service->expires_at > now())
-                -  {{ __('services.renews_in') }} 
-                <x-tooltip :message="$service->expires_at->format('M d, Y')">
-                    {{ $service->expires_at->longAbsoluteDiffForHumans() }}
-                </x-tooltip>
-                @endif
-            </div>
-        </div>
-    </a>
-    @empty
-    <div class="bg-background-secondary border border-neutral p-4 rounded-lg">
-        <p class="text-base text-sm">{{ __('services.no_services') }}</p>
-    </div>
-    @endforelse
+        <a href="{{ route('home') }}" class="pm-button" wire:navigate>
+            <x-ri-shopping-bag-4-line class="size-4" />
+            {{ __('navigation.shop') }}
+        </a>
+    </header>
 
-    {{ $services->links() }}
+    <div class="pm-divider"></div>
+
+    <div class="pm-list pm-reveal" style="animation-delay: 80ms">
+        @forelse ($services as $service)
+            <a href="{{ route('services.show', $service) }}" class="pm-row" wire:navigate>
+                <div class="pm-row-icon">
+                    <x-ri-instance-line class="size-5" />
+                </div>
+                <div>
+                    <p class="pm-row-title">{{ $service->label }}</p>
+                    <div class="pm-row-meta">
+                        <span><x-ri-price-tag-3-line class="size-3" />{{ $service->formattedPrice }}</span>
+                        @if($service->plan->type === 'recurring')
+                            <span>
+                                <x-ri-loop-right-line class="size-3" />
+                                {{ __('services.every_period', [
+                                    'period' => $service->plan->billing_period > 1 ? $service->plan->billing_period : '',
+                                    'unit' => trans_choice(__('services.billing_cycles.' . $service->plan->billing_unit), $service->plan->billing_period)
+                                ]) }}
+                            </span>
+                        @endif
+                        @if($service->expires_at && $service->expires_at > now())
+                            <span><x-ri-calendar-line class="size-3" />{{ __('services.renews_in') }} {{ $service->expires_at->longAbsoluteDiffForHumans() }}</span>
+                        @endif
+                    </div>
+                </div>
+                <span class="pm-status {{ $service->status === 'active' ? '' : ($service->status === 'pending' ? 'warn' : 'bad') }}">
+                    {{ __('services.statuses.' . $service->status) }}
+                </span>
+            </a>
+        @empty
+            <div class="pm-empty">{{ __('services.no_services') }}</div>
+        @endforelse
+    </div>
+
+    <div class="mt-6">
+        {{ $services->links() }}
+    </div>
 </div>
