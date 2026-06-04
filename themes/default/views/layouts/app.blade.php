@@ -40,7 +40,7 @@
     {!! hook('head') !!}
 </head>
 
-<body class="w-full bg-background text-base min-h-screen flex flex-col antialiased {{ (isset($sidebar) && $sidebar) ? 'paymenter-body' : '' }}"
+<body class="w-full text-base min-h-screen flex flex-col antialiased paymenter-body"
     x-cloak
     x-data="{
         theme: $persist('system').as('theme_mode'),
