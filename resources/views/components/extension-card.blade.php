@@ -2,7 +2,7 @@
 
 @php
     $price = $extension['price'] > 0 ? '$' . number_format($extension['price'], 2) : 'Free';
-    $author = $extension['author'] === 'CorwinDev' ? 'Paymenter' : $extension['author'];
+    $author = $extension['author'] === 'CorwinDev' ? 'ServerHop' : $extension['author'];
     $downloads = $extension['download_count'] >= 1000 ? round($extension['download_count'] / 1000, 1) . 'k' : $extension['download_count'];
 @endphp
 

@@ -8,4 +8,4 @@
 
 ## Reporting a Vulnerability
 
-If you found a security vulnerability create a new security [advisory](https://github.com/Paymenter/Paymenter/security/advisories/new) OR send an email to corwin@paymenter.org
+If you found a security vulnerability create a new security [advisory](https://github.com/Paymenter/Paymenter/security/advisories/new) OR contact your system administrator

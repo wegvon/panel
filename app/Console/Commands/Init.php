@@ -16,7 +16,7 @@ class Init extends Command implements PromptsForMissingInput
 
     public function handle()
     {
-        $this->info('Thanks for installing Paymenter!');
+        $this->info('Thanks for installing ServerHop!');
 
         // Validate the URL
         if (!str_starts_with($this->argument('url'), 'http')) {
@@ -28,7 +28,7 @@ class Init extends Command implements PromptsForMissingInput
         Setting::updateOrCreate(['key' => 'company_name'], ['value' => $this->argument('name')]);
         Setting::updateOrCreate(['key' => 'app_url'], ['value' => rtrim($this->argument('url'), '/')]);
 
-        $this->info("Now you're all set up!\nVisit Paymenter at " . $this->argument('url'));
+        $this->info("Now you're all set up!\nVisit ServerHop at " . $this->argument('url'));
     }
 
     protected function promptForMissingArgumentsUsing(): array

@@ -70,7 +70,7 @@ class CheckForUpdates extends Command
             NotificationHelper::sendSystemEmailNotification(
                 'New stable version available',
                 <<<HTML
-                A new stable version of Paymenter is available: {$version['latest']}.<br>
+                A new stable version of ServerHop is available: {$version['latest']}.<br>
                 You are currently using version: {$currentVersion}.<br>
                 
                 Please update as soon as possible.

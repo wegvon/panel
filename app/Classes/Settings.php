@@ -37,7 +37,7 @@ class Settings
                     'label' => 'Company Name',
                     'type' => 'text',
                     'override' => 'app.name',
-                    'default' => 'Paymenter',
+                    'default' => 'ServerHop',
                 ],
                 [
                     'name' => 'timezone',

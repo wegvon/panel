@@ -63,7 +63,7 @@ class MakeTheme extends Command implements PromptsForMissingInput
         $theme_file_contents = $fs->get($theme_file);
         // Replace theme name and author
         $theme_file_contents = str_replace(
-            ["'name' => 'Default'", "'author' => 'Paymenter'"],
+            ["'name' => 'Default'", "'author' => 'ServerHop'"],
             ["'name' => '$theme_name'", "'author' => '$author'"],
             $theme_file_contents
         );

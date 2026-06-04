@@ -42,7 +42,7 @@ class Logs extends Command
             return $this->info('No error message found.');
         }
 
-        if (!$this->confirm('Do you want to upload the error log (including environment variables) to Paymenter Support?', true)) {
+        if (!$this->confirm('Do you want to upload the error log (including environment variables) to ServerHop Support?', true)) {
             $this->info('Here is the last error message:');
             // output the last error message
             $this->line($lastErrorMessage);
@@ -53,11 +53,11 @@ class Logs extends Command
         // Add paymenter version and php version as first lines to $lastErrorMessage
         $paymenterVersion = config('app.version');
         $phpVersion = phpversion();
-        $lastErrorMessage = "Paymenter Version: $paymenterVersion\nPHP Version: $phpVersion\nURL: " . url('/') . "\n\n$lastErrorMessage";
+        $lastErrorMessage = "ServerHop Version: $paymenterVersion\nPHP Version: $phpVersion\nURL: " . url('/') . "\n\n$lastErrorMessage";
 
-        // Post the error message to Paymenter Support
+        // Post the error message to ServerHop Support
         // nc log.paymenter.org 99
-        $this->info('Found error, uploading to Paymenter Support...');
+        $this->info('Found error, uploading to ServerHop Support...');
         // Create a socket connection
         $socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
         socket_connect($socket, 'log.paymenter.org', 99);

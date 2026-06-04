@@ -64,10 +64,10 @@ class Extension extends Page implements HasActions, HasTable
         try {
             $this->allExtensions = Cache::remember('paymenter_marketplace_extensions', now()->addHours(6), function () {
                 $response = Http::timeout(15)
-                    ->withUserAgent('Paymenter/' . config('app.version') . ' (https://paymenter.org)')
+                    ->withUserAgent(config('app.name', 'ServerHop') . '/' . config('app.version'))
                     ->get('https://api.paymenter.org/extensions', ['limit' => 999]);
                 if (!$response->successful()) {
-                    logger()->error('Paymenter Marketplace API request failed', ['status' => $response->status(), 'body' => $response->body()]);
+                    logger()->error('ServerHop Marketplace API request failed', ['status' => $response->status(), 'body' => $response->body()]);
 
                     return null;
                 }
@@ -75,11 +75,11 @@ class Extension extends Page implements HasActions, HasTable
                 return $response->json('extensions', []);
             });
             if (is_null($this->allExtensions)) {
-                $this->error = 'The Paymenter Marketplace is currently unavailable. Please try again later.';
+                $this->error = 'The marketplace is currently unavailable. Please try again later.';
             }
         } catch (ConnectionException $e) {
-            $this->error = 'Failed to connect to the Paymenter Marketplace. Please check your server\'s internet connection.';
-            logger()->error('Paymenter Marketplace API connection failed: ' . $e->getMessage());
+            $this->error = 'Failed to connect to the marketplace. Please check your server\'s internet connection.';
+            logger()->error('Marketplace API connection failed: ' . $e->getMessage());
         }
     }
 

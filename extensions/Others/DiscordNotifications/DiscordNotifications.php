@@ -235,7 +235,7 @@ class DiscordNotifications extends Extension
                     'fields' => $fields,
                     'color' => 0x00FF00,
                     'footer' => [
-                        'text' => 'Paymenter Notifications',
+                        'text' => 'ServerHop Notifications',
                     ],
                     'timestamp' => now()->toIso8601String(),
                 ],
