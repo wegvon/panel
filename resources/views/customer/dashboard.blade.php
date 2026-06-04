@@ -12,6 +12,7 @@
     @livewireStyles
     @vite(['themes/' . config('settings.theme') . '/js/app.js', 'themes/' . config('settings.theme') . '/css/app.css'], config('settings.theme'))
     @include('layouts.colors')
+    @include('layouts.styles')
 </head>
 
 <body class="w-full bg-background text-base min-h-screen flex flex-col antialiased paymenter-body"

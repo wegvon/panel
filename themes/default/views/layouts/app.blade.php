@@ -17,6 +17,7 @@
     @livewireStyles
     @vite(['themes/' . config('settings.theme') . '/js/app.js', 'themes/' . config('settings.theme') . '/css/app.css'], config('settings.theme'))
     @include('layouts.colors')
+    @include('layouts.styles')
 
     @if (config('settings.favicon'))
     <link rel="icon" href="{{ Storage::url(config('settings.favicon')) }}">
