@@ -20,7 +20,7 @@ services:
       - paymenter_nw
 
   paymenter:
-    image: ghcr.io/paymenter/paymenter:latest
+    image: ghcr.io/wegvon/panel:master
     restart: always
     ports:
       - "8280:80"
@@ -43,7 +43,7 @@ services:
       DB_DATABASE: "paymenter"
       DB_USERNAME: "paymenter"
       DB_PASSWORD: "DKeRf8Bs3d6G6vVNI45LOYhW"
-      PAYMENTER_SKIP_DEFAULT: "false"
+      PAYMENTER_SKIP_DEFAULT: "true"
     networks:
       - paymenter_nw
 
