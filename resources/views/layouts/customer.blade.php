@@ -9,10 +9,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
-    @livewireStyles
-    @vite(['themes/' . config('settings.theme') . '/js/app.js', 'themes/' . config('settings.theme') . '/css/app.css'], config('settings.theme'))
-    @include('layouts.colors')
-    @include('layouts.styles')
     <style>
         :root {
             --page: #d8d6d6;
@@ -257,6 +253,5 @@
             @yield('content')
         </div>
     </div>
-    @livewireScriptConfig
 </body>
 </html>
