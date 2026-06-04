@@ -33,7 +33,7 @@ Route::group(['middleware' => ['web', 'guest']], function () {
 });
 
 Route::group(['middleware' => ['web', 'auth', MustVerfiyEmail::class]], function () {
-    Route::get('/dashboard', Dashboard::class)->name('dashboard');
+    Route::get('/dashboard', function () { return view('customer.dashboard'); })->name('dashboard');
 
     Route::get('/invoices', Invoices\Index::class)->name('invoices');
     Route::get('/invoices/{invoice}', Invoices\Show::class)->name('invoices.show')->middleware('can:view,invoice');
