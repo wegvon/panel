@@ -15,7 +15,9 @@ use App\Livewire\Tickets;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', Home::class)->name('home');
+Route::get('/', function () {
+    return redirect()->route('login');
+})->name('home');
 
 // Destroy the session and log out the user.
 // auth()->logout();
