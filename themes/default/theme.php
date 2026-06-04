@@ -2,7 +2,7 @@
 
 return [
     'name' => 'Default',
-    'author' => 'Paymenter',
+    'author' => 'ServerHop',
     'url' => 'https://paymenter.org',
 
     'settings' => [
@@ -44,7 +44,7 @@ return [
             'name' => 'home_page_text',
             'label' => 'Home Page Text',
             'type' => 'markdown',
-            'default' => 'Welcome to Paymenter!',
+            'default' => 'Welcome to ServerHop!',
         ],
         [
             'name' => 'primary',
