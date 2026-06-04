@@ -3,11 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'ServerHop - Client Console')</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    @livewireStyles
+    @vite(['themes/' . config('settings.theme') . '/js/app.js', 'themes/' . config('settings.theme') . '/css/app.css'], config('settings.theme'))
+    @include('layouts.colors')
+    @include('layouts.styles')
     <style>
         :root {
             --page: #d8d6d6;
@@ -34,6 +39,9 @@
             font-family: "Manrope", system-ui, sans-serif;
             color: var(--ink);
             -webkit-font-smoothing: antialiased;
+            background:
+                radial-gradient(circle at 50% 100%, rgba(255, 255, 255, 0.42), transparent 34rem),
+                var(--page);
         }
 
         .app-shell {
@@ -148,6 +156,54 @@
             font-weight: 600;
             line-height: 1.6;
         }
+
+        .upgrade-card {
+            margin-top: auto;
+            margin-bottom: 38px;
+            padding: 28px 20px;
+            border-radius: 18px;
+            background: linear-gradient(180deg, #f8f8f7 0%, #f0efed 100%);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.75), 0 22px 50px rgba(18, 17, 15, 0.06);
+            text-align: center;
+        }
+
+        .upgrade-card h3 {
+            margin: 0;
+            font-size: 17px;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+        }
+
+        .upgrade-card p {
+            margin: 12px auto 22px;
+            max-width: 160px;
+            color: #706e73;
+            font-size: 14px;
+            line-height: 1.65;
+        }
+
+        .upgrade-card button {
+            min-height: 42px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 9px;
+            padding: 0 18px;
+            border: none;
+            border-radius: 999px;
+            background: linear-gradient(180deg, #b9def5 0%, #8dc5ea 100%);
+            color: #0f1020;
+            font-size: 14px;
+            font-weight: 800;
+            cursor: pointer;
+            box-shadow: 0 14px 30px rgba(115, 176, 214, 0.26);
+            transition: transform 180ms ease, box-shadow 180ms ease;
+        }
+
+        .upgrade-card button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 18px 34px rgba(115, 176, 214, 0.36);
+        }
     </style>
 </head>
 <body>
@@ -163,15 +219,15 @@
             </div>
 
             <ul class="nav-list">
-                <li><a href="{{ route('customer.dashboard') }}" class="nav-link {{ request()->routeIs('customer.dashboard') ? 'active' : '' }}">
+                <li><a href="{{ route('customer.dashboard') }}" class="nav-link {{ request()->routeIs('customer.dashboard', 'dashboard') ? 'active' : '' }}">
                     <i class="nav-icon fas fa-home"></i>
                     <span>Dashboard</span>
                 </a></li>
-                <li><a href="{{ route('customer.services') }}" class="nav-link {{ request()->routeIs('customer.services') ? 'active' : '' }}">
+                <li><a href="{{ route('customer.services') }}" class="nav-link {{ request()->routeIs('customer.services', 'services') ? 'active' : '' }}">
                     <i class="nav-icon fas fa-server"></i>
                     <span>My Services</span>
                 </a></li>
-                <li><a href="{{ route('customer.invoices') }}" class="nav-link {{ request()->routeIs('customer.invoices') ? 'active' : '' }}">
+                <li><a href="{{ route('customer.invoices') }}" class="nav-link {{ request()->routeIs('customer.invoices', 'invoices') ? 'active' : '' }}">
                     <i class="nav-icon fas fa-file-invoice-dollar"></i>
                     <span>Invoices</span>
                 </a></li>
@@ -179,7 +235,7 @@
                     <i class="nav-icon fas fa-credit-card"></i>
                     <span>Payments</span>
                 </a></li>
-                <li><a href="{{ route('customer.tickets') }}" class="nav-link {{ request()->routeIs('customer.tickets') ? 'active' : '' }}">
+                <li><a href="{{ route('customer.tickets') }}" class="nav-link {{ request()->routeIs('customer.tickets', 'tickets') ? 'active' : '' }}">
                     <i class="nav-icon fas fa-headset"></i>
                     <span>Support Tickets</span>
                 </a></li>
@@ -201,5 +257,6 @@
             @yield('content')
         </div>
     </div>
+    @livewireScriptConfig
 </body>
 </html>

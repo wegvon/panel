@@ -33,7 +33,9 @@ Route::group(['middleware' => ['web', 'guest']], function () {
 });
 
 Route::group(['middleware' => ['web', 'auth', MustVerfiyEmail::class]], function () {
-    Route::get('/dashboard', Dashboard::class)->name('dashboard');
+    Route::get('/dashboard', function () {
+        return view('customer.dashboard');
+    })->name('dashboard');
 
     Route::get('/invoices', Invoices\Index::class)->name('invoices');
     Route::get('/invoices/{invoice}', Invoices\Show::class)->name('invoices.show')->middleware('can:view,invoice');
@@ -92,26 +94,26 @@ Route::group([
 
 Route::middleware(['auth', 'verified'])->prefix('customer')->name('customer.')->group(function () {
     Route::get('/dashboard', function () {
-        return redirect()->route('dashboard');
+        return view('customer.dashboard');
     })->name('dashboard');
 
     Route::get('/services', function () {
-        return redirect()->route('services');
+        return view('customer.services');
     })->name('services');
 
     Route::get('/invoices', function () {
-        return redirect()->route('invoices');
+        return view('customer.invoices');
     })->name('invoices');
 
     Route::get('/payments', function () {
-        return redirect()->route('account.payment-methods');
+        return view('customer.payments');
     })->name('payments');
 
     Route::get('/tickets', function () {
-        return redirect()->route('tickets');
+        return view('customer.tickets');
     })->name('tickets');
 
     Route::get('/domains', function () {
-        return redirect()->route('home');
+        return view('customer.domains');
     })->name('domains');
 });
