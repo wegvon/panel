@@ -7,38 +7,32 @@
     <ul class="pm-nav-list">
         @foreach ($dashboardLinks as $nav)
             @if (!empty($nav['children']))
-                <li x-data="{ open: {{ $nav['active'] ? 'true' : 'false' }} }">
-                    <button
-                        class="pm-nav-link w-full {{ $nav['active'] ? 'active' : '' }}"
-                        @click="open = !open"
-                        type="button">
-                        @isset($nav['icon'])
-                            <x-dynamic-component :component="$nav['icon']" class="pm-nav-icon" />
-                        @endisset
-                        <span class="pm-nav-text">{{ $nav['name'] }}</span>
-                        <svg class="pm-nav-chevron" :class="{ 'rotate-90': open }" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M9.00015 18.9999L15.8286 12.1715C16.4066 11.5935 16.4066 10.4064 15.8286 9.82837L9.00015 3"/>
-                        </svg>
-                    </button>
-                    <ul
-                        x-show="open"
-                        x-transition:enter="transition ease-out duration-200"
-                        x-transition:enter-start="opacity-0 -translate-y-2"
-                        x-transition:enter-end="opacity-100 translate-y-0"
-                        class="pm-nav-children">
-                        @foreach ($nav['children'] as $child)
-                            @if ($child['condition'] ?? true)
-                                <li>
-                                    <a href="{{ $child['url'] }}"
-                                        class="pm-nav-link {{ $child['active'] ? 'active' : '' }}"
-                                        @if($child['spa'] ?? true) wire:navigate @endif>
-                                        <x-ri-arrow-right-s-line class="pm-nav-icon" />
-                                        <span class="pm-nav-text">{{ $child['name'] }}</span>
-                                    </a>
-                                </li>
-                            @endif
-                        @endforeach
-                    </ul>
+                <li>
+                    <details class="pm-nav-group" @if($nav['active']) open @endif>
+                        <summary class="pm-nav-link {{ $nav['active'] ? 'active' : '' }}">
+                            @isset($nav['icon'])
+                                <x-dynamic-component :component="$nav['icon']" class="pm-nav-icon" />
+                            @endisset
+                            <span class="pm-nav-text">{{ $nav['name'] }}</span>
+                            <svg class="pm-nav-chevron" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M9.00015 18.9999L15.8286 12.1715C16.4066 11.5935 16.4066 10.4064 15.8286 9.82837L9.00015 3"/>
+                            </svg>
+                        </summary>
+                        <ul class="pm-nav-children">
+                            @foreach ($nav['children'] as $child)
+                                @if ($child['condition'] ?? true)
+                                    <li>
+                                        <a href="{{ $child['url'] }}"
+                                            class="pm-nav-link {{ $child['active'] ? 'active' : '' }}"
+                                            @if($child['spa'] ?? true) wire:navigate @endif>
+                                            <x-ri-arrow-right-s-line class="pm-nav-icon" />
+                                            <span class="pm-nav-text">{{ $child['name'] }}</span>
+                                        </a>
+                                    </li>
+                                @endif
+                            @endforeach
+                        </ul>
+                    </details>
                 </li>
             @else
                 <li>

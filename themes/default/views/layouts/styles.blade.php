@@ -96,7 +96,8 @@
         transition: color 160ms ease, transform 160ms ease;
     }
 
-    button.pm-nav-link {
+    button.pm-nav-link,
+    summary.pm-nav-link {
         background: none;
         border: none;
         padding: 0;
@@ -143,8 +144,22 @@
         transition: transform 200ms ease;
     }
 
-    .pm-nav-chevron.rotate-90 {
+    details.pm-nav-group[open] .pm-nav-chevron {
         transform: rotate(90deg);
+    }
+
+    details.pm-nav-group summary {
+        list-style: none;
+        cursor: pointer;
+    }
+
+    details.pm-nav-group summary::-webkit-details-marker {
+        display: none;
+    }
+
+    details.pm-nav-group summary::marker {
+        display: none;
+        content: "";
     }
 
     .pm-nav-children {
@@ -629,7 +644,6 @@
         .pm-nav-text,
         .pm-nav-extra,
         .pm-nav-chevron,
-        .pm-nav-children,
         .pm-upgrade-card,
         .pm-utility-list {
             display: none;
