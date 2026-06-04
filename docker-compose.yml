@@ -1,0 +1,49 @@
+services:
+  database:
+    image: mariadb:lts
+    restart: always
+    command: --default-authentication-plugin=mysql_native_password
+    volumes:
+      - "./database:/var/lib/mysql"
+    environment:
+      MYSQL_ROOT_PASSWORD: "Gu3KsVVgRQn7YKVNFCnHFyNz"
+      MYSQL_DATABASE: "paymenter"
+      MYSQL_USER: "paymenter"
+      MYSQL_PASSWORD: "DKeRf8Bs3d6G6vVNI45LOYhW"
+    networks:
+      - paymenter_nw
+
+  cache:
+    image: redis:alpine
+    restart: always
+    networks:
+      - paymenter_nw
+
+  paymenter:
+    image: ghcr.io/paymenter/paymenter:latest
+    restart: always
+    ports:
+      - "8080:80"
+    volumes:
+      - "./:/app/var/"
+      - "./storage/logs:/app/storage/logs"
+      - "./storage/public:/app/storage/app/public"
+      - "./themes:/app/themes"
+      - "./extensions:/app/extensions"
+    environment:
+      APP_ENV: "production"
+      CACHE_STORE: "redis"
+      REDIS_HOST: "cache"
+      DB_CONNECTION: "mariadb"
+      DB_HOST: "database"
+      DB_PORT: "3306"
+      DB_DATABASE: "paymenter"
+      DB_USERNAME: "paymenter"
+      DB_PASSWORD: "DKeRf8Bs3d6G6vVNI45LOYhW"
+      PAYMENTER_SKIP_DEFAULT: "false"
+    networks:
+      - paymenter_nw
+
+networks:
+  paymenter_nw:
+    driver: bridge
