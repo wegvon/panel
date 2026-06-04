@@ -52,7 +52,7 @@ services:
       DB_PORT: "3306"
       # Set to "true" to skip renewal of default themes and extensions
       # By default, default themes and extensions are always renewed on startup
-      PAYMENTER_SKIP_DEFAULT: "false"
+      PAYMENTER_SKIP_DEFAULT: "true"
     networks:
       - paymenter_nw
   # Asset Builder Service - used to build frontend assets (themes/extensions)
