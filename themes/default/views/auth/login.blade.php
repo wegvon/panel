@@ -24,7 +24,7 @@
 
     <form
         class="pm-panel"
-        wire:submit="submit" id="login"
+        wire:submit="submit" id="login" method="POST"
         style="padding: 36px 32px;">
         <div style="display: grid; gap: 20px;">
             <div>
