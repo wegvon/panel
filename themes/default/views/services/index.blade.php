@@ -5,10 +5,6 @@
             <h1 class="pm-headline">{{ __('services.services') }}</h1>
             <p class="pm-subhead">{{ __('dashboard.dashboard_description') }}</p>
         </div>
-        <a href="{{ route('home') }}" class="pm-button" wire:navigate>
-            <x-ri-shopping-bag-4-line class="size-4" />
-            {{ __('navigation.shop') }}
-        </a>
     </header>
 
     <div class="pm-divider"></div>
