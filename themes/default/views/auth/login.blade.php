@@ -1,3 +1,4 @@
+<div>
 <style>
     /* Hide nav and footer on login page */
     body > nav, body > .w-full.flex.flex-grow + div, body > .flex:last-child, footer, .paymenter-body .flex:has(> footer), [x-data] > nav { display: none !important; }
@@ -105,4 +106,5 @@
         </div>
         @endif
     </form>
+</div>
 </div>
