@@ -153,6 +153,16 @@
         cursor: pointer;
     }
 
+    details.pm-nav-group[open] {
+        padding-bottom: 6px;
+    }
+
+    details.pm-nav-group[open] .pm-nav-children {
+        border-left: 2px solid #e8e5e1;
+        margin-left: 10px;
+        padding-left: 14px;
+    }
+
     details.pm-nav-group summary::-webkit-details-marker {
         display: none;
     }
@@ -163,16 +173,22 @@
     }
 
     .pm-nav-children {
-        margin: 0;
+        margin: 6px 0 0 0;
         padding: 0 0 0 18px;
         list-style: none;
         display: grid;
-        gap: 14px;
+        gap: 6px;
     }
 
     .pm-nav-children .pm-nav-link {
         font-size: 14px;
         font-weight: 650;
+        padding: 6px 0;
+        gap: 10px;
+    }
+
+    .pm-nav-children .pm-nav-link:hover {
+        transform: translateX(2px);
     }
 
     .pm-upgrade-card {
