@@ -8,8 +8,10 @@ use App\Traits\Captchable;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Session;
+use Livewire\Attributes\Layout;
 use Livewire\Attributes\Validate;
 
+#[Layout('layouts.empty')]
 class Login extends Component
 {
     use Captchable;
@@ -70,6 +72,8 @@ class Login extends Component
 
     public function render()
     {
-        return view('auth.login')->layout('layouts.empty');
+        return view('auth.login')
+            ->layout('layouts.empty')
+            ->layoutData(['title' => __('auth.sign_in_title')]);
     }
 }
