@@ -51,8 +51,8 @@
     button { cursor: pointer; }
 
     .login-shell {
-      width: min(460px, 100%);
-      padding: 56px 48px;
+      width: min(420px, 100%);
+      padding: 48px 44px;
       border: 1px solid rgba(255, 255, 255, 0.72);
       border-radius: 28px;
       background: var(--panel);
@@ -64,21 +64,6 @@
       from { opacity: 0; transform: translateY(14px); }
       to { opacity: 1; transform: translateY(0); }
     }
-
-    .brand {
-      display: flex; align-items: center; gap: 13px;
-      margin-bottom: 48px; justify-content: center;
-    }
-    .brand-mark { width: 40px; height: 40px; color: #0f1020; }
-    .brand-name { font-size: 26px; font-weight: 800; letter-spacing: -0.03em; }
-
-    .login-head { text-align: center; margin-bottom: 40px; }
-    .login-eyebrow {
-      margin: 0 0 10px; color: #9d9a98; font-size: 12px;
-      font-weight: 800; letter-spacing: 0.18em; text-transform: uppercase;
-    }
-    .login-headline { margin: 0 0 10px; font-size: 32px; line-height: 1.15; font-weight: 800; letter-spacing: -0.055em; }
-    .login-subhead { margin: 0; color: #77757d; font-size: 15px; font-weight: 600; line-height: 1.6; }
 
     .form-group { margin-bottom: 22px; }
     .form-label { display: block; margin-bottom: 8px; font-size: 13px; font-weight: 700; color: var(--ink); }
@@ -135,34 +120,6 @@
     .submit-btn:active { transform: translateY(0); }
     .submit-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
 
-    .divider-row {
-      display: flex; align-items: center; gap: 16px; margin: 28px 0;
-    }
-    .divider-row::before, .divider-row::after {
-      content: ""; flex: 1; height: 1px; background: var(--line);
-    }
-    .divider-text {
-      color: var(--muted); font-size: 12px; font-weight: 800;
-      letter-spacing: 0.08em; text-transform: uppercase;
-    }
-
-    .social-btns { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
-    .social-btn {
-      display: inline-flex; align-items: center; justify-content: center; gap: 10px;
-      height: 48px; border: 1px solid var(--line); border-radius: 14px;
-      background: var(--panel); color: var(--ink); font-size: 14px; font-weight: 700;
-      text-decoration: none;
-      transition: transform 160ms ease, border-color 160ms ease, background 160ms ease, box-shadow 160ms ease;
-    }
-    .social-btn:hover {
-      transform: translateY(-1px); border-color: #ddd8d2;
-      background: #fafafa; box-shadow: 0 10px 24px rgba(24,22,20,0.06);
-    }
-    .social-btn svg { width: 20px; height: 20px; }
-
-    .login-foot { margin-top: 32px; text-align: center; color: var(--muted); font-size: 14px; font-weight: 600; }
-    .login-foot a { color: var(--blue-strong); font-weight: 800; text-decoration: none; transition: color 160ms ease; }
-    .login-foot a:hover { color: var(--ink); text-decoration: underline; }
 
     @media (max-width: 520px) {
       body { padding: 0; place-items: stretch; background: var(--panel); }
@@ -177,25 +134,6 @@
 <body>
   <div>
     <main class="login-shell" role="main">
-      <div class="brand" aria-label="{{ config('app.name', 'ServerHop') }}">
-        <svg class="brand-mark" viewBox="0 0 48 48" aria-hidden="true">
-          <circle cx="12" cy="14" r="5" fill="currentColor"/>
-          <circle cx="24" cy="9" r="5" fill="currentColor"/>
-          <circle cx="36" cy="14" r="5" fill="currentColor"/>
-          <circle cx="12" cy="30" r="5" fill="currentColor"/>
-          <circle cx="24" cy="25" r="5" fill="currentColor"/>
-          <circle cx="36" cy="30" r="5" fill="currentColor"/>
-          <path d="M16.5 13.2 20 10.8M28 10.8l3.5 2.4M16.5 29.2 20 26.8M28 26.8l3.5 2.4M12 19v6M36 19v6" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
-        </svg>
-        <span class="brand-name">{{ config('app.name', 'ServerHop') }}</span>
-      </div>
-
-      <header class="login-head">
-        <p class="login-eyebrow">Client Console</p>
-        <h1 class="login-headline">Welcome back</h1>
-        <p class="login-subhead">Sign in to manage your services, billing and team</p>
-      </header>
-
       <form wire:submit="submit" id="loginForm" novalidate>
         <div class="form-group">
           <label class="form-label" for="email">{{ __('general.input.email') }}</label>
