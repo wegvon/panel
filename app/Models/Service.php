@@ -97,7 +97,13 @@ class Service extends Model implements Auditable
     public function baseLabel(): Attribute
     {
         return Attribute::make(
-            get: fn () => $this->product->name . ' #' . $this->id
+            get: function () {
+                $identifier = $this->properties
+                    ->whereIn('key', ['hostname', 'domain', 'server_ip', 'primary_ip'])
+                    ->first()?->value;
+
+                return $this->product->name . ($identifier ? ' - ' . $identifier : ' #' . $this->id);
+            }
         );
     }
 

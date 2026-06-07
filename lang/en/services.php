@@ -10,6 +10,7 @@ return [
     'view' => 'View',
 
     'product_details' => 'Product Details',
+    'additional_details' => 'Additional Details',
     'billing_cycle' => 'Billing Cycle',
     'cancel' => 'Cancel',
     'cancellation' => 'Cancellation of :service',

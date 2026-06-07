@@ -3,7 +3,7 @@
     $activeServices = $user->services()->where('status', 'active')->count();
     $pendingInvoices = $user->invoices()->where('status', 'pending')->count();
     $openTickets = $user->tickets()->where('status', '!=', 'closed')->count();
-    $latestServices = $user->services()->with(['product', 'plan'])->latest()->take(4)->get();
+    $latestServices = $user->services()->with(['product', 'plan', 'properties'])->latest()->take(4)->get();
     $featuredService = $latestServices->first();
     $latestInvoice = $user->invoices()->latest()->first();
     $creditsTotal = $user->credits()->sum('amount');
@@ -38,7 +38,7 @@
             <div class="pm-stat-icon"><x-ri-receipt-line class="size-5" /></div>
             <div>
                 <p class="pm-stat-label">{{ __('dashboard.unpaid_invoices') }}</p>
-                <div class="pm-stat-value">{{ $pendingInvoices }} <span class="pm-delta">{{ $latestInvoice?->formattedTotal }}</span></div>
+                <div class="pm-stat-value">{{ $pendingInvoices }} <span class="pm-delta{{ $pendingInvoices > 0 ? ' pm-delta-warn' : '' }}">{{ $latestInvoice?->formattedTotal }}</span></div>
             </div>
         </article>
         <article class="pm-stat">

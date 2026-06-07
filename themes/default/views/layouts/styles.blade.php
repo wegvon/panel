@@ -392,6 +392,10 @@
         color: #56b89d;
     }
 
+    .pm-delta-warn {
+        color: #f26368;
+    }
+
     .pm-workspace {
         min-height: 0;
         margin-top: 28px;

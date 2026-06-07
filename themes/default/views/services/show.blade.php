@@ -56,6 +56,29 @@
                         @endif
                     </div>
                     @include('services.partials.billing-agreement')
+                    @php
+                        $identifyingProps = $service->properties->whereIn('key', ['hostname', 'domain', 'server_ip', 'primary_ip', 'dedicated_ip']);
+                        $otherProps = $service->properties->whereNotIn('key', ['hostname', 'domain', 'server_ip', 'primary_ip', 'dedicated_ip']);
+                    @endphp
+                    @foreach ($identifyingProps as $prop)
+                    <div class="flex items-center text-base">
+                        <span class="mr-2">{{ ucfirst(str_replace('_', ' ', $prop->key)) }}:</span>
+                        <span class="text-base/50">{{ $prop->value }}</span>
+                    </div>
+                    @endforeach
+                    @if($otherProps->isNotEmpty())
+                    <details class="mt-2">
+                        <summary class="text-sm font-semibold cursor-pointer text-base/70">{{ __('services.additional_details') }}</summary>
+                        <div class="mt-1">
+                        @foreach ($otherProps as $prop)
+                        <div class="flex items-center text-base">
+                            <span class="mr-2">{{ ucfirst(str_replace('_', ' ', $prop->key)) }}:</span>
+                            <span class="text-base/50">{{ $prop->value }}</span>
+                        </div>
+                        @endforeach
+                        </div>
+                    </details>
+                    @endif
                     <br>
                     @foreach ($fields as $field)
                     <div class="flex items-center text-base">
