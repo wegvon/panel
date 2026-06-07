@@ -72,8 +72,6 @@ class Login extends Component
 
     public function render()
     {
-        return view('auth.login')
-            ->layout('layouts.empty')
-            ->layoutData(['title' => __('auth.sign_in_title')]);
+        return view('auth.login');
     }
 }
