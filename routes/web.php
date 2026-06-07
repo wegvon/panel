@@ -10,6 +10,7 @@ use App\Livewire\Invoices;
 use App\Livewire\Products;
 use App\Livewire\Services;
 use App\Livewire\Tickets;
+use App\Models\Service;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Support\Facades\Route;
 
@@ -18,10 +19,10 @@ Route::get('/', function () {
 })->name('home');
 
 Route::get('/debug-services', function () {
-    $services = \App\Models\Service::with(['product', 'properties', 'configs.configOption', 'configs.configValue'])->take(5)->get();
+    $services = Service::with(['product', 'properties', 'configs.configOption', 'configs.configValue'])->take(5)->get();
     $data = [];
     foreach ($services as $s) {
-        $props = $s->properties->map(fn($p) => ['key' => $p->key, 'value' => $p->value]);
+        $props = $s->properties->map(fn ($p) => ['key' => $p->key, 'value' => $p->value]);
         $configs = $s->configs->map(function ($c) {
             return [
                 'option_env' => $c->configOption->env_variable ?? null,
@@ -41,6 +42,7 @@ Route::get('/debug-services', function () {
             'configs' => $configs->toArray(),
         ];
     }
+
     return response()->json($data);
 });
 
