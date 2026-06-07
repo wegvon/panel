@@ -3,7 +3,7 @@
     $activeServices = $user->services()->where('status', 'active')->count();
     $pendingInvoices = $user->invoices()->where('status', 'pending')->count();
     $openTickets = $user->tickets()->where('status', '!=', 'closed')->count();
-    $latestServices = $user->services()->with(['product', 'plan', 'properties'])->latest()->take(4)->get();
+    $latestServices = $user->services()->with(['product', 'plan', 'properties', 'configs.configOption', 'configs.configValue'])->latest()->take(4)->get();
     $featuredService = $latestServices->first();
     $latestInvoice = $user->invoices()->latest()->first();
     $creditsTotal = $user->credits()->sum('amount');

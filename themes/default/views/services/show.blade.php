@@ -57,28 +57,27 @@
                     </div>
                     @include('services.partials.billing-agreement')
                     @php
-                        $identifyingProps = $service->properties->whereIn('key', ['hostname', 'domain', 'server_ip', 'primary_ip', 'dedicated_ip']);
-                        $otherProps = $service->properties->whereNotIn('key', ['hostname', 'domain', 'server_ip', 'primary_ip', 'dedicated_ip']);
+                        $identifyingKeys = ['hostname', 'domain', 'server_ip', 'primary_ip', 'dedicated_ip'];
+                        $propMap = $service->properties->keyBy('key');
+                        $configMap = $service->configs()
+                            ->with(['configOption', 'configValue'])
+                            ->get()
+                            ->filter(fn($c) => $c->configOption)
+                            ->keyBy(fn($c) => $c->configOption->env_variable);
                     @endphp
-                    @foreach ($identifyingProps as $prop)
-                    <div class="flex items-center text-base">
-                        <span class="mr-2">{{ ucfirst(str_replace('_', ' ', $prop->key)) }}:</span>
-                        <span class="text-base/50">{{ $prop->value }}</span>
-                    </div>
-                    @endforeach
-                    @if($otherProps->isNotEmpty())
-                    <details class="mt-2">
-                        <summary class="text-sm font-semibold cursor-pointer text-base/70">{{ __('services.additional_details') }}</summary>
-                        <div class="mt-1">
-                        @foreach ($otherProps as $prop)
+                    @foreach ($identifyingKeys as $key)
+                        @if($prop = $propMap->get($key))
                         <div class="flex items-center text-base">
-                            <span class="mr-2">{{ ucfirst(str_replace('_', ' ', $prop->key)) }}:</span>
+                            <span class="mr-2">{{ ucfirst(str_replace('_', ' ', $key)) }}:</span>
                             <span class="text-base/50">{{ $prop->value }}</span>
                         </div>
-                        @endforeach
+                        @elseif($config = $configMap->get($key))
+                        <div class="flex items-center text-base">
+                            <span class="mr-2">{{ ucfirst(str_replace('_', ' ', $key)) }}:</span>
+                            <span class="text-base/50">{{ $config->configValue->env_variable ?? $config->configValue->name }}</span>
                         </div>
-                    </details>
-                    @endif
+                        @endif
+                    @endforeach
                     <br>
                     @foreach ($fields as $field)
                     <div class="flex items-center text-base">

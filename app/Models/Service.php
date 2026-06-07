@@ -98,11 +98,40 @@ class Service extends Model implements Auditable
     {
         return Attribute::make(
             get: function () {
-                $identifier = $this->properties
-                    ->whereIn('key', ['hostname', 'domain', 'server_ip', 'primary_ip'])
-                    ->first()?->value;
+                $identifier = $this->identifier;
 
                 return $this->product->name . ($identifier ? ' - ' . $identifier : ' #' . $this->id);
+            }
+        );
+    }
+
+    /**
+     * Get an identifying label from service properties or configs.
+     */
+    public function identifier(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                // Try properties first
+                $prop = $this->properties
+                    ->whereIn('key', ['hostname', 'domain', 'server_ip', 'primary_ip'])
+                    ->first();
+
+                if ($prop) {
+                    return $prop->value;
+                }
+
+                // Try configs (checkout options like hostname)
+                $this->loadMissing(['configs.configOption', 'configs.configValue']);
+
+                $config = $this->configs
+                    ->first(fn ($c) => in_array($c->configOption->env_variable ?? null, ['hostname', 'domain', 'server_ip', 'primary_ip']));
+
+                if ($config && $config->configValue) {
+                    return $config->configValue->env_variable ?? $config->configValue->name;
+                }
+
+                return null;
             }
         );
     }
