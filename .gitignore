@@ -23,3 +23,8 @@ extensions/Servers/LicenseManager
 extensions/Servers/Proxmox
 !themes/default
 .playwright-mcp/
+.DS_Store
+**/.DS_Store
+.mcp.json
+.claude/
+.claude-flow/
