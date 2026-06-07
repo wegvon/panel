@@ -135,14 +135,10 @@ Core domain models: `User`, `Service`, `Product`, `Category`, `Order`, `Invoice`
 - `config/passport.php` — OAuth2 server config
 - `config/livewire.php` — Livewire configuration
 
-## Docker
-
-Multi-stage Docker build (PHP 8.3 FPM Alpine + Nginx + Supervisor). MariaDB + Redis in docker-compose. The entrypoint renews default themes/extensions from baked-in copies on startup unless `PAYMENTER_SKIP_DEFAULT=true`.
-
 ## Key Patterns
 
+- **Docker**: Multi-stage build (PHP 8.3 FPM Alpine + Nginx + Supervisor). Entrypoint renews default themes/extensions on startup unless `PAYMENTER_SKIP_DEFAULT=true`.
 - **PHP 8.3+ attributes**: `#[ExtensionMeta]` for extension discovery, `#[DisabledIf]` for conditional field disabling
 - **Eloquent Builders**: Custom query builders in `app/Models/Builders/`
 - **Traits**: Shared model behavior in `app/Models/Traits/`
 - **JSON:API**: API responses use `timacdonald/json-api` for spec-compliant responses
-- **Scramble**: API documentation auto-generated via `dedoc/scramble` (config in `config/scramble.php`)
