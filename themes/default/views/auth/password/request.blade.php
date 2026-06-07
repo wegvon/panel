@@ -184,7 +184,7 @@
       </form>
 
       <p class="auth-foot">
-        {{ __('auth.remember_password', default: 'Remember your password?') }} <a href="{{ route('login') }}" wire:navigate>{{ __('auth.sign_in') }}</a>
+        Remember your password? <a href="{{ route('login') }}" wire:navigate>{{ __('auth.sign_in') }}</a>
       </p>
     </main>
   </div>
