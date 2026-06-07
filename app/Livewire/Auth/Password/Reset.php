@@ -9,10 +9,10 @@ use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Request;
+use Livewire\Attributes\Layout;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\Url;
 use Livewire\Attributes\Validate;
-use Livewire\Attributes\Layout;
 
 #[Layout('layouts.empty')]
 class Reset extends Component
