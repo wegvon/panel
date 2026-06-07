@@ -67,6 +67,8 @@
         <x-notification />
         <x-confirmation />
         <x-impersonating />
+    @elseif (request()->routeIs('login'))
+        {{ $slot }}
     @else
         <x-navigation />
         <div class="w-full flex flex-grow">
