@@ -67,7 +67,7 @@
         <x-notification />
         <x-confirmation />
         <x-impersonating />
-    @elseif (request()->routeIs('login'))
+    @elseif (request()->routeIs('login', 'register', 'password.request', 'password.reset'))
         {{ $slot }}
     @else
         <x-navigation />
