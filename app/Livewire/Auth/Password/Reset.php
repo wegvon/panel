@@ -12,7 +12,9 @@ use Illuminate\Support\Facades\Request;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\Url;
 use Livewire\Attributes\Validate;
+use Livewire\Attributes\Layout;
 
+#[Layout('layouts.empty')]
 class Reset extends Component
 {
     use Captchable;

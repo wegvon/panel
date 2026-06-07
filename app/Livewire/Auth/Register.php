@@ -9,8 +9,10 @@ use App\Models\User;
 use App\Traits\Captchable;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
+use Livewire\Attributes\Layout;
 
 #[DisabledIf('registration_disabled')]
+#[Layout('layouts.empty')]
 class Register extends ComponentWithProperties
 {
     use Captchable;

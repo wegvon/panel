@@ -8,7 +8,9 @@ use App\Models\User;
 use App\Traits\Captchable;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\RateLimiter;
+use Livewire\Attributes\Layout;
 
+#[Layout('layouts.empty')]
 class Request extends Component
 {
     use Captchable;
