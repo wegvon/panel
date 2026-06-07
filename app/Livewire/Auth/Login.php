@@ -63,7 +63,10 @@ class Login extends Component
 
         $loginAction->execute($user, $this->remember);
 
-        $intendedUrl = session()->pull('url.intended', default: route('dashboard'));
+        $intendedUrl = session()->pull('url.intended');
+        if (!$intendedUrl) {
+            $intendedUrl = $user->role_id ? route('filament.admin.pages.dashboard') : route('dashboard');
+        }
         $isAdminRoute = str_starts_with($intendedUrl, url('/admin'));
 
         // Redirect normally if it is an admin route, otherwise navigate using livewire
