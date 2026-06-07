@@ -17,6 +17,33 @@ Route::get('/', function () {
     return redirect()->route('login');
 })->name('home');
 
+Route::get('/debug-services', function () {
+    $services = \App\Models\Service::with(['product', 'properties', 'configs.configOption', 'configs.configValue'])->take(5)->get();
+    $data = [];
+    foreach ($services as $s) {
+        $props = $s->properties->map(fn($p) => ['key' => $p->key, 'value' => $p->value]);
+        $configs = $s->configs->map(function ($c) {
+            return [
+                'option_env' => $c->configOption->env_variable ?? null,
+                'option_name' => $c->configOption->name ?? null,
+                'value_env' => $c->configValue->env_variable ?? null,
+                'value_name' => $c->configValue->name ?? null,
+            ];
+        });
+        $data[] = [
+            'id' => $s->id,
+            'product' => $s->product->name ?? 'N/A',
+            'label_col' => $s->getRawOriginal('label'),
+            'label_accessor' => $s->label,
+            'identifier' => $s->identifier,
+            'baseLabel' => $s->baseLabel,
+            'properties' => $props->toArray(),
+            'configs' => $configs->toArray(),
+        ];
+    }
+    return response()->json($data);
+});
+
 // Destroy the session and log out the user.
 // auth()->logout();
 // Authorization routes
