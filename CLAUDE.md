@@ -142,3 +142,4 @@ Core domain models: `User`, `Service`, `Product`, `Category`, `Order`, `Invoice`
 - **Eloquent Builders**: Custom query builders in `app/Models/Builders/`
 - **Traits**: Shared model behavior in `app/Models/Traits/`
 - **JSON:API**: API responses use `timacdonald/json-api` for spec-compliant responses
+- **Scramble**: API documentation auto-generated via `dedoc/scramble` (config in `config/scramble.php`)
