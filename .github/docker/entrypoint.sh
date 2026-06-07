@@ -146,6 +146,10 @@ echo -e "Setting storage permissions."
 chmod -R 777 /app/storage/*
 chown -R nginx:nginx /app/storage
 
+## clear caches before migrations
+echo -e "Clearing caches."
+php artisan optimize:clear
+
 ## make sure the db is set up
 echo -e "Migrating and Seeding D.B"
 php artisan migrate --seed --force
