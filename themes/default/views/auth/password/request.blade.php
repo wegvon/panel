@@ -164,7 +164,7 @@
       <header class="auth-head">
         <p class="auth-eyebrow">Client Console</p>
         <h1 class="auth-headline">{{ __('auth.forgot_password') }}</h1>
-        <p class="auth-subhead">{{ __('auth.forgot_password_subtitle', default: "Enter your email and we'll send you a reset link") }}</p>
+        <p class="auth-subhead">Enter your email and we'll send you a reset link</p>
       </header>
 
       <form wire:submit="submit" id="forgotForm" novalidate>
@@ -174,13 +174,13 @@
             <input class="form-input {{ $errors->has('email') ? 'error' : '' }}" type="email" id="email" wire:model="email" autocomplete="email" placeholder="{{ __('general.input.email_placeholder') }}" required>
             <i class="input-icon fa-regular fa-envelope" aria-hidden="true"></i>
           </div>
-          <div class="form-hint"><span>{{ __('auth.reset_link_hint', default: "We'll send reset instructions to this email") }}</span></div>
+          <div class="form-hint"><span>We'll send reset instructions to this email</span></div>
           @error('email')<div class="error-message" role="alert"><i class="fa-solid fa-circle-exclamation" aria-hidden="true"></i><span>{{ $message }}</span></div>@enderror
         </div>
 
         <x-captcha :form="'password.request'" />
 
-        <button type="submit" class="submit-btn">{{ __('auth.send_reset_link', default: 'Send reset link') }}</button>
+        <button type="submit" class="submit-btn">Send reset link</button>
       </form>
 
       <p class="auth-foot">

@@ -215,17 +215,17 @@
 
         <div class="checkbox-group">
           <input type="checkbox" class="checkbox-input" id="tos" wire:model="tos" required>
-          <label class="checkbox-label" for="tos">{{ __('auth.agree_terms', default: 'I agree to the Terms of Service and Privacy Policy') }}</label>
+          <label class="checkbox-label" for="tos">I agree to the Terms of Service and Privacy Policy</label>
         </div>
         @error('tos')<div class="error-message" role="alert"><i class="fa-solid fa-circle-exclamation" aria-hidden="true"></i><span>{{ $message }}</span></div>@enderror
 
         <x-captcha :form="'register'" />
 
-        <button type="submit" class="submit-btn">{{ __('auth.create_account', default: 'Create account') }}</button>
+        <button type="submit" class="submit-btn">Create account</button>
       </form>
 
       @if (config('settings.oauth_github') || config('settings.oauth_google') || config('settings.oauth_discord'))
-      <div class="divider-row"><span class="divider-text">{{ __('auth.or_sign_up_with', default: 'or sign up with') }}</span></div>
+      <div class="divider-row"><span class="divider-text">or sign up with</span></div>
       <div class="social-btns">
         @foreach (['google', 'github'] as $provider)
         @if (config('settings.oauth_' . $provider))
@@ -243,7 +243,7 @@
       @endif
 
       <p class="auth-foot">
-        {{ __('auth.already_have_account', default: 'Already have an account?') }} <a href="{{ route('login') }}" wire:navigate>{{ __('auth.sign_in') }}</a>
+        Already have an account? <a href="{{ route('login') }}" wire:navigate>{{ __('auth.sign_in') }}</a>
       </p>
     </main>
   </div>
