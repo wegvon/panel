@@ -90,7 +90,7 @@ class Service extends Model implements Auditable
     public function label(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => $value ?: $this->baseLabel
+            get: fn ($value) => $this->baseLabel
         );
     }
 
@@ -112,19 +112,21 @@ class Service extends Model implements Auditable
     {
         return Attribute::make(
             get: function () {
-                // Try properties first (value must be non-empty)
-                $prop = $this->properties
-                    ->whereIn('key', ['hostname', 'domain', 'server_ip', 'primary_ip'])
+                $identifyingKeys = ['hostname', 'domain', 'server_ip', 'primary_ip', 'dedicated_ip', 'ip', 'ipv4', 'ipv6', 'ip address', 'dedicated ip'];
+
+                // Try properties first using the query builder for a fresh query
+                $prop = $this->properties()
+                    ->whereIn('key', $identifyingKeys)
+                    ->whereNotNull('value')
+                    ->where('value', '!=', '')
                     ->first();
 
-                if ($prop && !empty($prop->value)) {
+                if ($prop) {
                     return $prop->value;
                 }
 
-                // Try configs (checkout options like hostname/IP)
+                // Try configs
                 $this->loadMissing(['configs.configOption', 'configs.configValue']);
-
-                $identifyingKeys = ['hostname', 'domain', 'server_ip', 'primary_ip', 'ip', 'ipv4', 'ipv6', 'ip address', 'dedicated ip', 'dedicated_ip'];
 
                 $config = $this->configs
                     ->first(function ($c) use ($identifyingKeys) {

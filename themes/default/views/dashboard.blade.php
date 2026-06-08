@@ -77,6 +77,7 @@
                     <p class="mt-4 max-w-96 text-sm font-semibold leading-6 text-[#716f75]">
                         {{ $featuredService->product->name }} · {{ $featuredService->formattedPrice }}
                     </p>
+                    <!-- DEBUG: label={{ $featuredService->getRawOriginal('label') ?? 'NULL' }}, baseLabel={{ $featuredService->baseLabel }}, identifier={{ $featuredService->identifier ?? 'NULL' }} -->
                 @else
                     <h2 class="mt-6 max-w-80 text-3xl font-extrabold leading-tight tracking-[-0.055em]">{{ __('services.no_services') }}</h2>
                     <p class="mt-4 max-w-96 text-sm font-semibold leading-6 text-[#716f75]">{{ __('dashboard.dashboard_description') }}</p>
