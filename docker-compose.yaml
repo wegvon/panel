@@ -21,6 +21,7 @@ services:
 
   paymenter:
     image: ghcr.io/wegvon/panel:master
+    pull_policy: always
     restart: always
     ports:
       - "8280:80"
