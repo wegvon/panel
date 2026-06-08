@@ -9,6 +9,7 @@ use App\Observers\ServiceObserver;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\Log;
 use OwenIt\Auditing\Contracts\Auditable;
 
 #[ObservedBy([ServiceObserver::class])]
@@ -116,7 +117,7 @@ class Service extends Model implements Auditable
 
                 // DEBUG: Log all properties for this service
                 $allProps = $this->properties()->get();
-                \Illuminate\Support\Facades\Log::error('[DEBUG identifier] Service #' . $this->id . ' has ' . $allProps->count() . ' properties: ' . json_encode($allProps->pluck('value', 'key')->toArray()));
+                Log::error('[DEBUG identifier] Service #' . $this->id . ' has ' . $allProps->count() . ' properties: ' . json_encode($allProps->pluck('value', 'key')->toArray()));
 
                 // Try properties first using the query builder for a fresh query
                 $sql = $this->properties()
@@ -124,7 +125,7 @@ class Service extends Model implements Auditable
                     ->whereNotNull('value')
                     ->where('value', '!=', '')
                     ->toSql();
-                \Illuminate\Support\Facades\Log::error('[DEBUG identifier] SQL: ' . $sql . ' for service #' . $this->id);
+                Log::error('[DEBUG identifier] SQL: ' . $sql . ' for service #' . $this->id);
 
                 $prop = $this->properties()
                     ->whereIn('key', $identifyingKeys)
@@ -132,7 +133,7 @@ class Service extends Model implements Auditable
                     ->where('value', '!=', '')
                     ->first();
 
-                \Illuminate\Support\Facades\Log::error('[DEBUG identifier] Found prop: ' . ($prop ? json_encode($prop->only(['id', 'key', 'value', 'model_type', 'model_id'])) : 'NULL') . ' for service #' . $this->id);
+                Log::error('[DEBUG identifier] Found prop: ' . ($prop ? json_encode($prop->only(['id', 'key', 'value', 'model_type', 'model_id'])) : 'NULL') . ' for service #' . $this->id);
 
                 if ($prop) {
                     return $prop->value;
