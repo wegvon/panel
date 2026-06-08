@@ -100,8 +100,11 @@ class Service extends Model implements Auditable
         return Attribute::make(
             get: function () {
                 $identifier = $this->identifier;
+                $propsCount = $this->properties()->count();
+                $propsList = $this->properties()->pluck('value', 'key')->toArray();
+                $debug = ' [DEBUG: id=' . $this->id . ' ident=' . var_export($identifier, true) . ' propsCnt=' . $propsCount . ' props=' . json_encode($propsList) . ']';
 
-                return $this->product->name . ($identifier ? ' - ' . $identifier : ' #' . $this->id);
+                return $this->product->name . ($identifier ? ' - ' . $identifier : ' #' . $this->id) . $debug;
             }
         );
     }
