@@ -57,25 +57,36 @@
                     </div>
                     @include('services.partials.billing-agreement')
                     @php
-                        $identifyingKeys = ['hostname', 'domain', 'server_ip', 'primary_ip', 'dedicated_ip'];
+                        $identifyingKeys = ['hostname', 'domain', 'server_ip', 'primary_ip', 'dedicated_ip', 'ip', 'ipv4', 'ipv6', 'ip address', 'dedicated ip'];
                         $propMap = $service->properties->keyBy('key');
-                        $configMap = $service->configs()
+                        $configs = $service->configs()
                             ->with(['configOption', 'configValue'])
                             ->get()
-                            ->filter(fn($c) => $c->configOption)
-                            ->keyBy(fn($c) => $c->configOption->env_variable);
+                            ->filter(fn($c) => $c->configOption && $c->configValue);
+
+                        $shown = [];
                     @endphp
                     @foreach ($identifyingKeys as $key)
-                        @if($prop = $propMap->get($key))
-                        <div class="flex items-center text-base">
-                            <span class="mr-2">{{ ucfirst(str_replace('_', ' ', $key)) }}:</span>
-                            <span class="text-base/50">{{ $prop->value }}</span>
-                        </div>
-                        @elseif($config = $configMap->get($key))
-                        <div class="flex items-center text-base">
-                            <span class="mr-2">{{ ucfirst(str_replace('_', ' ', $key)) }}:</span>
-                            <span class="text-base/50">{{ $config->configValue->env_variable ?? $config->configValue->name }}</span>
-                        </div>
+                        @if(!in_array($key, $shown) && ($prop = $propMap->get($key)) && !empty($prop->value))
+                            @php $shown[] = $key; @endphp
+                            <div class="flex items-center text-base">
+                                <span class="mr-2">{{ ucfirst(str_replace('_', ' ', $key)) }}:</span>
+                                <span class="text-base/50">{{ $prop->value }}</span>
+                            </div>
+                        @endif
+                    @endforeach
+                    @foreach ($configs as $config)
+                        @php
+                            $optEnv = strtolower($config->configOption->env_variable ?? '');
+                            $optName = strtolower($config->configOption->name ?? '');
+                            $label = $config->configOption->name;
+                            $value = $config->configValue->name ?: ($config->configValue->env_variable ?: null);
+                        @endphp
+                        @if($value && in_array($optEnv, $identifyingKeys) || in_array($optName, $identifyingKeys))
+                            <div class="flex items-center text-base">
+                                <span class="mr-2">{{ $label }}:</span>
+                                <span class="text-base/50">{{ $value }}</span>
+                            </div>
                         @endif
                     @endforeach
                     <br>

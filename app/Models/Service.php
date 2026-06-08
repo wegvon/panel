@@ -112,23 +112,29 @@ class Service extends Model implements Auditable
     {
         return Attribute::make(
             get: function () {
-                // Try properties first
+                // Try properties first (value must be non-empty)
                 $prop = $this->properties
                     ->whereIn('key', ['hostname', 'domain', 'server_ip', 'primary_ip'])
                     ->first();
 
-                if ($prop) {
+                if ($prop && !empty($prop->value)) {
                     return $prop->value;
                 }
 
-                // Try configs (checkout options like hostname)
+                // Try configs (checkout options like hostname/IP)
                 $this->loadMissing(['configs.configOption', 'configs.configValue']);
 
+                $identifyingKeys = ['hostname', 'domain', 'server_ip', 'primary_ip', 'ip', 'ipv4', 'ipv6', 'ip address', 'dedicated ip', 'dedicated_ip'];
+
                 $config = $this->configs
-                    ->first(fn ($c) => in_array($c->configOption->env_variable ?? null, ['hostname', 'domain', 'server_ip', 'primary_ip']));
+                    ->first(function ($c) use ($identifyingKeys) {
+                        $optEnv = strtolower($c->configOption->env_variable ?? '');
+                        $optName = strtolower($c->configOption->name ?? '');
+                        return in_array($optEnv, $identifyingKeys) || in_array($optName, $identifyingKeys);
+                    });
 
                 if ($config && $config->configValue) {
-                    return $config->configValue->env_variable ?? $config->configValue->name;
+                    return $config->configValue->name ?: ($config->configValue->env_variable ?: null);
                 }
 
                 return null;
