@@ -130,6 +130,7 @@ class Service extends Model implements Auditable
                     ->first(function ($c) use ($identifyingKeys) {
                         $optEnv = strtolower($c->configOption->env_variable ?? '');
                         $optName = strtolower($c->configOption->name ?? '');
+
                         return in_array($optEnv, $identifyingKeys) || in_array($optName, $identifyingKeys);
                     });
 
